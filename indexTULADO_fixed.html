@@ -1,0 +1,669 @@
+<!DOCTYPE html>  
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🐕 Tu Lado Animal – Tienda para Animales en Tres Cantos</title>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;800&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --verde-oscuro:  #1a5c2a;
+      --verde-medio:   #2e8b47;
+      --verde-vivo:    #3dba5e;
+      --verde-lima:    #7ed957;
+      --verde-claro:   #c8f5d0;
+      --amarillo:      #f5e642;
+      --naranja:       #ff8c42;
+      --blanco:        #f9fff9;
+      --texto:         #14301d;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: var(--blanco);
+      color: var(--texto);
+      overflow-x: hidden;
+    }
+
+    /* ─── HEADER ─── */
+    header {
+      background: var(--verde-oscuro);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 4px 20px rgba(0,0,0,.35);
+    }
+
+    .header-inner {
+      max-width: 1100px;
+      margin: auto;
+      padding: 0 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+
+    .logo-text {
+      font-family: 'Baloo 2', cursive;
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--verde-lima);
+      letter-spacing: -0.5px;
+      text-decoration: none;
+    }
+
+    .logo-text span { color: var(--amarillo); }
+
+    nav a {
+      color: var(--verde-claro);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: .95rem;
+      margin-left: 1.6rem;
+      transition: color .2s;
+    }
+    nav a:hover { color: var(--verde-lima); }
+
+    /* ─── HERO ─── */
+    .hero {
+      background: linear-gradient(135deg, var(--verde-oscuro) 0%, var(--verde-medio) 55%, var(--verde-vivo) 100%);
+      min-height: 520px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 5rem 2rem 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Decorative circles */
+    .hero::before, .hero::after {
+      content: '';
+      position: absolute;
+      border-radius: 50%;
+      opacity: .12;
+      background: var(--verde-lima);
+    }
+    .hero::before { width: 500px; height: 500px; top: -200px; right: -150px; }
+    .hero::after  { width: 380px; height: 380px; bottom: -180px; left: -120px; }
+
+    .hero-emoji {
+      font-size: 5rem;
+      display: block;
+      margin-bottom: 1rem;
+      animation: bounce 2.2s ease-in-out infinite;
+    }
+    @keyframes bounce {
+      0%,100% { transform: translateY(0); }
+      50%      { transform: translateY(-14px); }
+    }
+
+    /* ─── HERO CONTENT ─── */
+    .hero-content-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 2.5rem;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 1;
+    }
+
+    @media(max-width:700px){
+      .hero-content-wrap { flex-direction: column; }
+    }
+
+    .hero h1 {
+      font-family: 'Baloo 2', cursive;
+      font-size: clamp(2.4rem, 6vw, 4.2rem);
+      font-weight: 800;
+      color: #fff;
+      line-height: 1.1;
+      text-shadow: 0 3px 12px rgba(0,0,0,.3);
+    }
+
+    .hero h1 span { color: var(--verde-lima); }
+
+    .hero p {
+      margin-top: 1.1rem;
+      color: var(--verde-claro);
+      font-size: 1.15rem;
+      max-width: 540px;
+    }
+
+    .hero-ctas {
+      margin-top: 2.2rem;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      padding: .8rem 1.8rem;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 1rem;
+      text-decoration: none;
+      transition: transform .2s, box-shadow .2s;
+      cursor: pointer;
+      border: none;
+    }
+    .btn:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,.25); }
+
+    .btn-phone {
+      background: var(--amarillo);
+      color: var(--verde-oscuro);
+    }
+    .btn-whatsapp {
+      background: #25d366;
+      color: #fff;
+    }
+    .btn-insta {
+      background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+      color: #fff;
+    }
+
+    /* ─── SECTIONS ─── */
+    section { padding: 4.5rem 1.5rem; }
+
+    .container { max-width: 1100px; margin: auto; }
+
+    .section-tag {
+      display: inline-block;
+      background: var(--verde-vivo);
+      color: #fff;
+      font-size: .78rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: .3rem .9rem;
+      border-radius: 20px;
+      margin-bottom: .8rem;
+    }
+
+    h2 {
+      font-family: 'Baloo 2', cursive;
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      font-weight: 800;
+      color: var(--verde-oscuro);
+      line-height: 1.2;
+    }
+
+    /* ─── ABOUT ─── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+    }
+
+    @media(max-width:700px){ .about-grid { grid-template-columns: 1fr; } }
+
+    .about-text p {
+      margin-top: 1.1rem;
+      line-height: 1.8;
+      color: #2c4833;
+      font-size: 1.02rem;
+    }
+
+    .about-card {
+      background: linear-gradient(145deg, var(--verde-claro), #e8fded);
+      border-radius: 24px;
+      padding: 2.5rem;
+      border: 2px solid var(--verde-vivo);
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .brand-tag {
+      display: inline-block;
+      background: var(--verde-medio);
+      color: #fff;
+      font-size: .8rem;
+      font-weight: 700;
+      padding: .25rem .75rem;
+      border-radius: 20px;
+      margin: .2rem;
+    }
+
+    .brands-wrap { margin-top: .5rem; }
+
+    /* ─── SERVICES ─── */
+    .services-section {
+      background: var(--verde-oscuro);
+    }
+
+    .services-section h2 { color: var(--verde-lima); }
+    .services-section .section-tag { background: var(--verde-lima); color: var(--verde-oscuro); }
+
+    .services-grid {
+      margin-top: 2.5rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .service-card {
+      background: rgba(255,255,255,.07);
+      border: 1.5px solid rgba(125,217,87,.25);
+      border-radius: 20px;
+      padding: 2rem 1.5rem;
+      text-align: center;
+      transition: background .25s, transform .25s;
+    }
+
+    .service-card:hover {
+      background: rgba(61,186,94,.18);
+      transform: translateY(-5px);
+    }
+
+    .service-icon { font-size: 2.8rem; display: block; margin-bottom: .8rem; }
+
+    .service-card h3 {
+      font-family: 'Baloo 2', cursive;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--verde-lima);
+      margin-bottom: .4rem;
+    }
+
+    .service-card p { color: var(--verde-claro); font-size: .93rem; line-height: 1.6; }
+
+    /* ─── HOURS ─── */
+    .hours-section { background: var(--verde-claro); }
+
+    .hours-grid {
+      margin-top: 2rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+
+    .hour-row {
+      background: #fff;
+      border-radius: 16px;
+      padding: 1.2rem 1.4rem;
+      display: flex;
+      flex-direction: column;
+      gap: .3rem;
+      border-left: 5px solid var(--verde-vivo);
+      box-shadow: 0 4px 14px rgba(30,90,45,.1);
+    }
+
+    .hour-row.closed { border-left-color: #d64545; }
+    .hour-row.closed .hour-time { color: #d64545; }
+
+    .hour-day {
+      font-weight: 700;
+      font-size: .9rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--verde-oscuro);
+    }
+
+    .hour-time {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--verde-medio);
+    }
+
+    /* ─── CONTACT ─── */
+    .contact-section {
+      background: linear-gradient(135deg, #1a5c2a, #2e8b47);
+    }
+
+    .contact-section h2 { color: var(--amarillo); }
+    .contact-section .section-tag { background: var(--amarillo); color: var(--verde-oscuro); }
+
+    .contact-grid {
+      margin-top: 2.5rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+
+    @media(max-width:640px){ .contact-grid { grid-template-columns: 1fr; } }
+
+    .contact-item {
+      background: rgba(255,255,255,.1);
+      border: 1.5px solid rgba(255,255,255,.2);
+      border-radius: 20px;
+      padding: 1.8rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      transition: background .2s;
+    }
+    .contact-item:hover { background: rgba(255,255,255,.18); }
+
+    .contact-icon { font-size: 2.2rem; flex-shrink: 0; }
+
+    .contact-label {
+      font-size: .8rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      font-weight: 700;
+      color: var(--verde-lima);
+      margin-bottom: .25rem;
+    }
+
+    .contact-value {
+      color: #fff;
+      font-weight: 600;
+      font-size: 1.05rem;
+      text-decoration: none;
+      word-break: break-word;
+    }
+    a.contact-value:hover { color: var(--amarillo); text-decoration: underline; }
+
+    .cta-contact {
+      margin-top: 2.5rem;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    /* ─── REVIEWS ─── */
+    .reviews-section {
+      background: var(--verde-claro);
+    }
+    .reviews-grid {
+      margin-top: 2.5rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+    .review-card {
+      background: #fff;
+      border-radius: 20px;
+      padding: 1.8rem;
+      border: 2px solid var(--verde-vivo);
+      display: flex;
+      flex-direction: column;
+      gap: .8rem;
+    }
+    .review-stars { color: #f5b942; font-size: 1.2rem; }
+    .review-text { color: #2c4833; line-height: 1.7; font-size: .97rem; font-style: italic; }
+    .review-author { font-weight: 700; color: var(--verde-oscuro); font-size: .9rem; }
+    .reviews-cta {
+      margin-top: 2rem;
+      text-align: center;
+    }
+    .btn-reviews {
+      background: var(--verde-oscuro);
+      color: #fff;
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: #0d2b14;
+      text-align: center;
+      padding: 2rem 1.5rem;
+      color: #6aab7a;
+      font-size: .9rem;
+    }
+
+    footer strong { color: var(--verde-lima); }
+  </style>
+</head>
+<body>
+
+<!-- ─── HEADER ─── -->
+<header>
+  <div class="header-inner">
+    <a href="#" class="logo-text">🐾 Tu Lado <span>Animal</span></a>
+    <nav>
+      <a href="#sobre-nosotros">Nosotros</a>
+      <a href="#servicios">Servicios</a>
+      <a href="#horarios">Horarios</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ─── HERO ─── -->
+<section class="hero">
+  <div class="hero-content-wrap">
+    <div style="position:relative;z-index:1;">
+      <span class="hero-emoji">🐕</span>
+      <h1>Tu Lado <span>Animal</span></h1>
+      <p>Tienda especializada para animales en Tres Cantos.<br>Alimentación de calidad, accesorios y mucho más — con el cariño que tu compañía animal merece.</p>
+      <div class="hero-ctas">
+        <a href="tel:627226635" class="btn btn-phone">📞 Llámanos</a>
+        <a href="https://wa.me/+34627226635" class="btn btn-whatsapp" target="_blank" rel="noopener">💬 WhatsApp</a>
+        <a href="https://www.instagram.com/3c.tuladoanimal/" class="btn btn-insta" target="_blank" rel="noopener">📸 Instagram</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── SOBRE NOSOTROS ─── -->
+<section id="sobre-nosotros">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-text">
+        <span class="section-tag">Quiénes somos</span>
+        <h2>Tu tienda de confianza en Tres Cantos</h2>
+        <p>
+          Tu Lado Animal es una tienda para animales de compañía, situada en la <strong>zona nueva de Tres Cantos</strong>, en la Avenida de España, con fácil aparcamiento. Aquí encontrarás todo lo que necesita tu animalito: alimentación, snack, accesorios, juguetes y asesoramiento personalizado.
+        </p>
+        <p>
+          Disponemos de un amplio surtido de <strong>piensos y alimentación de primeras marcas</strong> y también de <strong>alimentación B.A.R.F</strong> (cruda congelada y cocinada). Además contamos con una cómoda zona de <strong>autolavado para perros</strong> de cualquier tamaño, es recomendable reservar cita, ya que cada perrito necesita su tiempo de baño y después limpiamos y desinfectamos todo para el siguiente. Revisa nuestro horario de atención.
+        </p>
+        <p style="margin-top:1rem;font-size:.9rem;color:#2e8b47;">
+          🚿🐶 <a href="https://www.instagram.com/explore/tags/Autolavadoperros" target="_blank" rel="noopener" style="color:var(--verde-vivo);text-decoration:none;">#Autolavadoperros</a>
+          🍗🥦🐺🍲😸 <a href="https://www.instagram.com/explore/tags/alimentaci%C3%B3nperrosygatos" target="_blank" rel="noopener" style="color:var(--verde-vivo);text-decoration:none;">#alimentaciónperrosygatos</a>
+          🦴🍎 <a href="https://www.instagram.com/explore/tags/snackperrosygatos" target="_blank" rel="noopener" style="color:var(--verde-vivo);text-decoration:none;">#snackperrosygatos</a>
+          🛍️🎀 <a href="https://www.instagram.com/explore/tags/accesoriosperros" target="_blank" rel="noopener" style="color:var(--verde-vivo);text-decoration:none;">#accesoriosperros</a>
+          🧸🎠 <a href="https://www.instagram.com/explore/tags/juguetesperros" target="_blank" rel="noopener" style="color:var(--verde-vivo);text-decoration:none;">#juguetesperros</a>
+          🩹🔬 <a href="https://www.instagram.com/explore/tags/complementosalimenticiosperrosygatos" target="_blank" rel="noopener" style="color:var(--verde-vivo);text-decoration:none;">#complementosalimenticiosperrosygatos</a>
+        </p>
+      </div>
+      <div class="about-card">
+        <div>
+          <p style="font-weight:700;color:var(--verde-oscuro);margin-bottom:.6rem;">🏷️ Marcas disponibles</p>
+          <div class="brands-wrap">
+            <span class="brand-tag">Gosbi</span>
+            <span class="brand-tag">Natural Greatness</span>
+            <span class="brand-tag">Natural Woodland</span>
+            <span class="brand-tag">Natura Diet</span>
+            <span class="brand-tag">Digno</span>
+            <span class="brand-tag">Ownat</span>
+            <span class="brand-tag">Naturextra</span>
+            <span class="brand-tag">Lenda</span>
+            <span class="brand-tag">Custom</span>
+            <span class="brand-tag">Arquivet Fresh</span>
+            <span class="brand-tag">Belcando</span>
+            <span class="brand-tag">Leonardo</span>
+            <span class="brand-tag">Nutricione (B.A.R.F)</span>
+            <span class="brand-tag">Natuka</span>
+            <span class="brand-tag">Amanova</span>
+            <span class="brand-tag">Harper &amp; Bone</span>
+            <span class="brand-tag">Sense Dibac</span>
+            <span class="brand-tag">Fresh</span>
+            <span class="brand-tag">Zen</span>
+            <span class="brand-tag">Sum Sum</span>
+            <span class="brand-tag">Cocosi</span>
+            <span class="brand-tag">Farmina</span>
+            <span class="brand-tag">Calibra</span>
+            <span class="brand-tag">Y más…</span>
+          </div>
+        </div>
+        <div style="margin-top:.5rem;background:var(--verde-medio);border-radius:14px;padding:1rem 1.2rem;color:#fff;">
+          <p style="font-weight:700;font-size:1rem;">🥩 Alimentación B.A.R.F</p>
+          <p style="font-size:.9rem;margin-top:.3rem;opacity:.9;">Alimentación cruda congelada y cocinada, natural y de alta calidad para tu animal. Marcas Nutricione y Natuka.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── SERVICIOS ─── -->
+<section id="servicios" class="services-section">
+  <div class="container">
+    <span class="section-tag">Lo que ofrecemos</span>
+    <h2>Nuestros Servicios</h2>
+    <div class="services-grid">
+      <div class="service-card">
+        <span class="service-icon">🍖</span>
+        <h3>Alimentación Premium</h3>
+        <p>Gran selección de piensos y comida húmeda de las mejores marcas del mercado.</p>
+      </div>
+      <div class="service-card">
+        <span class="service-icon">🥩</span>
+        <h3>Dieta B.A.R.F</h3>
+        <p>Alimentación cruda congelada y cocinada, natural y equilibrada para una vida más saludable. Marcas Nutricione y Natuka.</p>
+      </div>
+      <div class="service-card">
+        <span class="service-icon">🛁</span>
+        <h3>Autolavado de Perros</h3>
+        <p>Zona de autolavado de amplio tamaño. ¡Apta para perros de cualquier raza!</p>
+      </div>
+      <div class="service-card">
+        <span class="service-icon">🎾</span>
+        <h3>Juguetes y Accesorios</h3>
+        <p>Todo tipo de juguetes, camas, transportines y complementos para el día a día de tu animal de compañía.</p>
+      </div>
+      <div class="service-card">
+        <span class="service-icon">💊</span>
+        <h3>Suplementos Nutricionales</h3>
+        <p>Suplementos para mejorar sus defensas, digestión, articulaciones, piel y pelo.</p>
+      </div>
+      <div class="service-card">
+        <span class="service-icon">🦴</span>
+        <h3>Golosinas</h3>
+        <p>Amplia carta en golosinas y masticables naturales.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── HORARIOS ─── -->
+<section id="horarios" class="hours-section">
+  <div class="container">
+    <span class="section-tag">Cuándo visitarnos</span>
+    <h2>Horario de apertura</h2>
+    <div class="hours-grid">
+      <div class="hour-row closed">
+        <span class="hour-day">🌙 Lunes</span>
+        <span class="hour-time">17:00 – 20:20 h</span>
+      </div>
+      <div class="hour-row">
+        <span class="hour-day">☀️ Martes – Viernes</span>
+        <span class="hour-time">10:00 – 14:00 h</span>
+        <span class="hour-time">17:00 – 20:20 h</span>
+      </div>
+      <div class="hour-row">
+        <span class="hour-day">🛍️ Sábados</span>
+        <span class="hour-time">10:00 – 14:15 h</span>
+      </div>
+      <div class="hour-row closed">
+        <span class="hour-day">🔒 Sábados tarde</span>
+        <span class="hour-time" style="color:#d64545;">Cerrado</span>
+      </div>
+      <div class="hour-row closed">
+        <span class="hour-day">🔒 Domingos</span>
+        <span class="hour-time" style="color:#d64545;">Cerrado</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── CONTACTO ─── -->
+<section id="contacto" class="contact-section">
+  <div class="container">
+    <span class="section-tag">Dónde encontrarnos</span>
+    <h2>Contacto</h2>
+    <div style="margin-top:2.5rem;display:flex;flex-direction:column;gap:1.2rem;max-width:680px;margin-left:auto;margin-right:auto;">
+      <div class="contact-item" style="flex-direction:column;gap:.8rem;">
+        <div style="display:flex;align-items:center;gap:1rem;">
+          <span class="contact-icon">📍</span>
+          <div>
+            <p class="contact-label">Dirección</p>
+            <a href="https://www.google.com/maps/place/Tu+lado+animal+(Autolavado+de+mascotas+y+tienda),+Av.+de+Espa%C3%B1a,+46,+28760+Tres+Cantos,+Madrid/data=!4m2!3m1!1s0xd43d5a1254f1aa1:0xd3a3084757f03e18" class="contact-value" target="_blank" rel="noopener">Av. de España 46, Zona Nueva, 28760 Tres Cantos 🗺️ Ver en Google Maps</a>
+          </div>
+        </div>
+        <div style="width:100%;border-radius:14px;overflow:hidden;border:2px solid rgba(255,255,255,.2);">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3031.4!2d-3.7189106!3d40.6185263!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd43d5a1254f1aa1%3A0xd3a3084757f03e18!2sTu%20lado%20animal%20(Autolavado%20de%20mascotas%20y%20tienda)!5e0!3m2!1ses!2ses!4v1"
+            width="100%" height="280" style="border:0;display:block;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+          </iframe>
+        </div>
+      </div>
+      <div class="contact-item">
+        <span class="contact-icon">📞</span>
+        <div>
+          <p class="contact-label">Teléfono</p>
+          <a href="tel:627226635" class="contact-value">627 22 66 35</a>
+        </div>
+      </div>
+      <div class="contact-item">
+        <span class="contact-icon">✉️</span>
+        <div>
+          <p class="contact-label">Correo electrónico</p>
+          <a href="mailto:tla3c@gmx.es" class="contact-value">tla3c@gmx.es</a>
+        </div>
+      </div>
+      <div class="contact-item">
+        <span class="contact-icon">📸</span>
+        <div>
+          <p class="contact-label">Instagram</p>
+          <a href="https://www.instagram.com/3c.tuladoanimal/" class="contact-value" target="_blank" rel="noopener">@3c.tuladoanimal</a>
+        </div>
+      </div>
+    </div>
+    <div class="cta-contact">
+      <a href="tel:627226635" class="btn btn-phone">📞 Llama ahora</a>
+      <a href="https://wa.me/+34627226635" class="btn btn-whatsapp" target="_blank" rel="noopener">💬 Enviar WhatsApp</a>
+    </div>
+  </div>
+</section>
+
+<!-- ─── RESEÑAS ─── -->
+<section class="reviews-section">
+  <div class="container">
+    <span class="section-tag">Lo que dicen nuestros clientes</span>
+    <h2>Reseñas destacadas ⭐</h2>
+    <p style="margin-top:.6rem;color:#2c4833;font-size:1rem;"><strong>4,9 / 5</strong> · Más de 200 valoraciones en Google</p>
+    <div class="reviews-grid">
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"Tu Lado Animal es simplemente excepcional. La dependienta es increíblemente amable, atenta y dispuesta a ayudar de forma personalizada. Tienen los mejores piensos del mercado y ofrecen servicios como autolavado de perros. Lo mejor de todo es cómo trata a mi perro con tanto amor y cuidado, se nota que realmente se preocupan por cada mascota."</p>
+        <span class="review-author">— Cliente de Google</span>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"Hemos probado muchos sitios en Tres Cantos porque tenemos un pastor alemán y este es en el único que sale realmente limpio. Tiene productos de excelente calidad para los animales. Lo recomiendo 100%, ¡tenéis que probarlo, es inigualable!"</p>
+        <span class="review-author">— Cliente de Google</span>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"Una tienda de las de toda la vida, trato cercano y amable. Diana, la dueña, es un encanto de persona, cariñosa y amable con todos. Mi perrete siempre quiere entrar cuando pasamos cerca; además, si no encuentras lo que buscas, Diana te lo conseguirá. ¡Más que recomendable!"</p>
+        <span class="review-author">— Cliente de Google</span>
+      </div>
+    </div>
+    <div class="reviews-cta">
+      <a href="https://www.google.com/maps/place/Tu+lado+animal+(Autolavado+de+mascotas+y+tienda)/@40.6185263,-3.7189106,16z/data=!4m8!3m7!1s0xd43d5a1254f1aa1:0xd3a3084757f03e18!8m2!3d40.6185263!4d-3.7189106!9m1!1b1!16s%2Fg%2F11fyzfq44n" class="btn btn-reviews" target="_blank" rel="noopener">⭐ Ver todas las reseñas en Google</a>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <p>🐾 <strong>Tu Lado Animal</strong> · Av. de España 14, Tres Cantos (Madrid) · <a href="tel:627226635" style="color:var(--verde-vivo);">627 22 66 35</a></p>
+  <p style="margin-top:.5rem;">Con ❤️ para todos los animales de compañía de Tres Cantos</p>
+</footer>
+
+</body>
+</html>
