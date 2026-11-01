@@ -6,6 +6,7 @@
   <meta name="theme-color" content="#1a5c2a" />
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="application-name" content="Tu Lado Animal" />
   <meta name="apple-mobile-web-app-title" content="Tu Lado Animal" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <link rel="manifest" href="manifest.webmanifest" />
@@ -589,6 +590,25 @@
       font-family: inherit;
     }
     .footer-install { margin-top: 1rem; }
+    .install-toast {
+      position: fixed;
+      left: 1rem; right: 1rem;
+      bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px));
+      max-width: 420px;
+      margin: 0 auto;
+      z-index: 300;
+      background: #fff;
+      color: var(--verde-oscuro);
+      font-weight: 700;
+      font-size: .95rem;
+      text-align: center;
+      line-height: 1.4;
+      padding: .9rem 1.1rem;
+      border-radius: 18px;
+      border: 2px solid var(--verde-vivo);
+      box-shadow: 0 10px 30px rgba(0,0,0,.25);
+    }
+    .install-toast[hidden] { display: none; }
 
     /* PWA: respect phone notches / home bar */
     header { padding-top: env(safe-area-inset-top, 0px); }
@@ -635,7 +655,7 @@
         <a href="tel:627226635" class="btn btn-phone">📞 Llámanos</a>
         <a href="https://wa.me/34627226635?text=Hola%2C%20quiero%20pedir%20informaci%C3%B3n%20o%20hacer%20un%20pedido." class="btn btn-whatsapp" target="_blank" rel="noopener">💬 WhatsApp</a>
         <a href="https://www.instagram.com/3c.tuladoanimal/" class="btn btn-insta" target="_blank" rel="noopener">📸 Instagram</a>
-        <button type="button" class="btn btn-install js-install" hidden>📲 Instalar app</button>
+        <button type="button" class="btn btn-install js-install">📲 Instalar app</button>
       </div>
     </div>
   </div>
@@ -943,7 +963,7 @@
 <footer>
   <p>🐾 <strong>Tu Lado Animal</strong> · Av. de España 14, Tres Cantos (Madrid) · <a href="tel:627226635" style="color:var(--verde-vivo);">627 22 66 35</a></p>
   <p style="margin-top:.5rem;">Con ❤️ para todos los animales de compañía de Tres Cantos</p>
-  <button type="button" class="btn btn-install footer-install js-install" hidden>📲 Instalar app</button>
+  <button type="button" class="btn btn-install footer-install js-install">📲 Instalar app</button>
 </footer>
 
 <script>
@@ -1242,22 +1262,44 @@
       buttons.forEach(function (b) { b.hidden = !show; });
     }
 
+    // Already running as an installed app → no button needed
     var standalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
-    if (standalone) return;
+    if (standalone) { setVisible(false); return; }
 
+    var toast = document.createElement('div');
+    toast.className = 'install-toast';
+    toast.hidden = true;
+    toast.setAttribute('role', 'status');
+    document.body.appendChild(toast);
+    var toastTimer;
+    function say(msg) {
+      toast.textContent = msg;
+      toast.hidden = false;
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(function () { toast.hidden = true; }, 5000);
+    }
+
+    var isApple = /iphone|ipad|ipod/i.test(navigator.userAgent) ||
+                  (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+
+    // Chrome / Edge / Android: keep the browser's install event for the button
     window.addEventListener('beforeinstallprompt', function (e) {
       e.preventDefault();
       deferred = e;
-      setVisible(true);
     });
 
     buttons.forEach(function (b) {
       b.addEventListener('click', function () {
-        if (!deferred) return;
-        var ev = deferred;
-        deferred = null;
-        setVisible(false);
-        ev.prompt();
+        if (deferred) {
+          var ev = deferred;
+          deferred = null;
+          ev.prompt();                               // native install popup
+        } else if (isApple && navigator.share) {
+          // iPhone/iPad have no install popup: open the share sheet, which has "Añadir a pantalla de inicio"
+          navigator.share({ title: 'Tu Lado Animal', url: location.href.split('#')[0] }).catch(function () {});
+        } else {
+          say('Abre el menú del navegador y elige «Instalar app» o «Añadir a pantalla de inicio».');
+        }
       });
     });
 

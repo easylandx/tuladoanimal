@@ -1,5 +1,5 @@
-const CACHE = 'tu-lado-animal-v1';
-const FONT_CACHE = 'tu-lado-animal-fonts-v1';
+const CACHE = 'tu-lado-animal-v2';
+const FONT_CACHE = 'tu-lado-animal-fonts-v2';
 const SHELL = [
   './',
   './index.html',
