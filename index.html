@@ -1268,7 +1268,7 @@
       toast.textContent = msg;
       toast.hidden = false;
       clearTimeout(toastTimer);
-      toastTimer = setTimeout(function () { toast.hidden = true; }, 5000);
+      toastTimer = setTimeout(function () { toast.hidden = true; }, 8000);
     }
 
     var isApple = /iphone|ipad|ipod/i.test(navigator.userAgent) ||
@@ -1280,17 +1280,26 @@
       deferred = e;
     });
 
+    var isAndroid = /android/i.test(navigator.userAgent);
+    var inApp = /instagram|fban|fbav|line\/|tiktok/i.test(navigator.userAgent);
+
+    function howTo() {
+      if (inApp) return 'Abre esta página en Safari o Chrome para poder instalar la app.';
+      if (isApple) return 'Toca el botón Compartir (⬆️) y elige «Añadir a pantalla de inicio».';
+      if (isAndroid) return 'Toca el menú ⋮ del navegador y elige «Instalar app» o «Añadir a pantalla de inicio».';
+      return 'Usa el menú del navegador y elige «Instalar app».';
+    }
+
+    toast.addEventListener('click', function () { toast.hidden = true; });
+
     buttons.forEach(function (b) {
       b.addEventListener('click', function () {
         if (deferred) {
           var ev = deferred;
           deferred = null;
           ev.prompt();                               // native install popup
-        } else if (isApple && navigator.share) {
-          // iPhone/iPad have no install popup: open the share sheet, which has "Añadir a pantalla de inicio"
-          navigator.share({ title: 'Tu Lado Animal', url: location.href.split('#')[0] }).catch(function () {});
         } else {
-          say('Abre el menú del navegador y elige «Instalar app» o «Añadir a pantalla de inicio».');
+          say(howTo());                              // short how-to text
         }
       });
     });
