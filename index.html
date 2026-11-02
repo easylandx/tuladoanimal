@@ -454,34 +454,6 @@
       color: #fff;
     }
 
-    /* ─── OPEN BADGE ─── */
-    .open-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: .6rem;
-      margin-top: 1.6rem;
-      padding: .5rem 1.1rem;
-      border-radius: 50px;
-      background: rgba(255,255,255,.95);
-      color: var(--verde-oscuro);
-      font-weight: 700;
-      font-size: .95rem;
-      box-shadow: 0 4px 16px rgba(0,0,0,.18);
-      min-height: 38px;
-    }
-    .open-badge:empty { display: none; }
-    .open-dot {
-      width: 12px; height: 12px; border-radius: 50%;
-      background: #d64545; flex-shrink: 0;
-    }
-    .open-badge.is-open .open-dot {
-      background: #25d366;
-      animation: pulse-dot 1.8s ease-out infinite;
-    }
-    @keyframes pulse-dot {
-      0%   { box-shadow: 0 0 0 0 rgba(37,211,102,.6); }
-      100% { box-shadow: 0 0 0 10px rgba(37,211,102,0); }
-    }
     .btn-reserva { background: #fff; color: var(--verde-oscuro); }
 
     /* ─── RESERVAS / PEDIDOS ─── */
@@ -652,7 +624,6 @@
       <span class="hero-emoji">🐶🐱</span>
       <h1 id="hero-headline">&nbsp;</h1>
       <p>Tienda especializada para animales en Tres Cantos.<br>Alimentación de calidad, accesorios y mucho más — con el cariño que tu compañía animal merece.</p>
-      <div id="open-badge" class="open-badge" aria-live="polite"></div>
       <div class="hero-ctas">
         <a href="#reservas" class="btn btn-reserva">🛁 Reservar autolavado</a>
         <a href="tel:627226635" class="btn btn-phone">📞 Llámanos</a>
@@ -1101,50 +1072,6 @@
         links[li].setAttribute('href', waUrl(txt));
       }
     }
-
-    /* ── 1. Badge "Abierto ahora" (hora de Madrid) ── */
-    var badge = document.getElementById('open-badge');
-
-    function madridNow() {
-      var parts = new Intl.DateTimeFormat('en-GB', {
-        timeZone: 'Europe/Madrid', weekday: 'short', hour: '2-digit', minute: '2-digit', hourCycle: 'h23'
-      }).formatToParts(new Date());
-      var o = {};
-      parts.forEach(function (p) { o[p.type] = p.value; });
-      var map = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 };
-      return { day: map[o.weekday], min: parseInt(o.hour, 10) * 60 + parseInt(o.minute, 10) };
-    }
-
-    function updateBadge() {
-      if (!badge) return;
-      var now = madridNow(), open = false, text = '';
-      var today = SCHEDULE[now.day] || [];
-      for (var i = 0; i < today.length; i++) {
-        if (now.min >= today[i][0] && now.min < today[i][1]) {
-          open = true;
-          var left = today[i][1] - now.min;
-          text = 'Abierto ahora · cierra a las ' + fmt(today[i][1]) + (left <= 30 ? ' (¡date prisa!)' : '');
-          break;
-        }
-      }
-      if (!open) {
-        var found = false;
-        for (var off = 0; off <= 7 && !found; off++) {
-          var d = (now.day + off) % 7, iv = SCHEDULE[d] || [];
-          for (var k = 0; k < iv.length; k++) {
-            if (off === 0 && now.min >= iv[k][0]) continue;
-            var when = off === 0 ? 'hoy' : off === 1 ? 'mañana' : 'el ' + DAY_NAMES[d];
-            text = 'Cerrado ahora · abrimos (salvo festivos) ' + when + ' a las ' + fmt(iv[k][0]);
-            found = true;
-            break;
-          }
-        }
-      }
-      badge.className = 'open-badge' + (open ? ' is-open' : '');
-      badge.innerHTML = '<span class="open-dot"></span><span>' + text + '</span>';
-    }
-    updateBadge();
-    setInterval(updateBadge, 60000);
 
     /* ── 2. Reserva de autolavado → WhatsApp ── */
     var washForm = document.getElementById('wash-form');
